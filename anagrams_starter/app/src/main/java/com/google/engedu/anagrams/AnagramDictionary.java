@@ -112,7 +112,22 @@ public class AnagramDictionary {
     }
 
     public String pickGoodStarterWord() {
-        return "post";
+        // Index needs to be bounded to the size of the wordList
+        int index = random.nextInt(wordList.size());
+        String starterWord;
+        ArrayList<String> anagramList;
+
+        while (true) {
+            starterWord = wordList.get(index);
+            anagramList = (ArrayList<String>) getAnagramsWithOneMoreLetter(starterWord);
+            //Log.d("pickGoodStarterWord", anagramList.toString());
+            if (anagramList.size() >= MIN_NUM_ANAGRAMS) {
+                return starterWord;
+            }
+
+            // Ensure that it will wrap around to the start of the list
+            index = (index + 1) % wordList.size();
+        }
     }
 
     private String sortLetters(String input) {
